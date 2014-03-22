@@ -1,15 +1,23 @@
 import inspect
+import zm
 def Hook(fn):
     members = dict(inspect.getmembers(fn))
-
-    print(members['__module__'] + "." + members['__qualname__'])
-
-
-    print("Initializing")
-    stack = inspect.stack()
-    print(inspect.getmodule(stack[1][0]))
-    print(fn.__name__)
+    hookName = "%s.%s" % (members['__module__'], members['__qualname__'])
+    del members
     def inner(*args, **kwargs):
-        return fn(*args, **kwargs)
+        (func, args, kwargs) = zm.ZM().hookPre(hookName, (fn, args, kwargs))
+        return zm.ZM().hookPost(hookName, (func(*args, **kwargs), args, kwargs))
     return inner
+
+def HookBefore(targetHook):
+    def decorate(f):
+        zm.ZM().registerPreHook(targetHook, f)
+        return f
+    return decorate
+
+def HookAfter(targetHook):
+    def decorate(f):
+        zm.ZM().registerPostHook(targetHook, f)
+        return f
+    return decorate
 

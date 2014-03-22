@@ -1,4 +1,4 @@
-from zm.Hook import Hook
+from zm.Hook import Hook,HookBefore,HookAfter
 from zm.AutoReloader import AutoReloader
 from zm.Options import Options
 from zm.HTTPRequest import HTTPRequest
@@ -13,6 +13,42 @@ class ZM(object):
 
         return cls._instance
 
+    def __init__(self):
+        if 'runtimeInitialized' not in self.__dict__: # Don't reinitalize singleton
+            self.preHooks = {}
+            self.postHooks = {}
+            self.runtimeInitialized = False
+
+    def registerPreHook(self, hookName, function):
+        if hookName not in self.preHooks:
+            self.preHooks[hookName] = []
+        self.preHooks[hookName].append(function)
+    
+    def registerPostHook(self, hookName, function):
+        if hookName not in self.postHooks:
+            self.postHooks[hookName] = []
+        self.postHooks[hookName].append(function)
+
+    def hookPre(self, hookName, packedArgs):
+        print("Hookpre for %s" % hookName)
+        (fn, args, kwargs) = packedArgs
+        if hookName in self.preHooks:
+            argsForHook = tuple([hookName, fn] + list(args))
+            for hook in self.preHooks[hookName]:
+                (argsForHook, kwargs) = hook(*argsForHook, **kwargs)
+            fn = argsForHook[1]
+            args = argsForHook[2:]
+        return (fn, args, kwargs)
+
+    def hookPost(self, hookName, packedArgs):
+        print("Hookpost for %s" % hookName)
+        (retVal, args, kwargs) = packedArgs
+        if hookName in self.postHooks:
+            argsForHook = tuple([hookName, retVal] + list(args))
+            for hook in self.postHooks[hookName]:
+                (argsForHook, kwargs) = hook(*argsForHook, **kwargs)
+            retVal = argsForHook[1]
+        return retVal
 
     def autoLoadModules(self, modulePath = None):
         import os.path

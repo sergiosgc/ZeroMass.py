@@ -89,11 +89,11 @@ class HTTPMessage(object):
         if value is None and isinstance(headerOrName, str):
             return self.setHeader(HTTPHeader.fromString(headerOrName))
         if value is not None:
-            return self.setHeader(self, HTTPHeader(name=headerOrName, value=value))
+            return self.setHeader(HTTPHeader(name=headerOrName, value=value))
         header = headerOrName
-        if name not in self.headers or len(self.headers[name]) == 0:
+        if header.name not in self.headers or len(self.headers[header.name]) == 0:
             return self.addHeader(header)
-        self.headers[name][0] = header.value
+        self.headers[header.name][0] = header.value
 
     def setHeaders(self, headers):
         self.headers = {}

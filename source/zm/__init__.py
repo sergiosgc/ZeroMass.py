@@ -103,3 +103,13 @@ class ZM(object):
         result = HTTPResponse()
         return result
 
+# A couple of hook usage examples I should move to the documentation
+#@HookBefore('zm.ZM.executeRequest')
+#def someTest(hookName, hookFunction, hookSelf, request):
+#    print("Would handle hook %s using %s" % (hookName, hookFunction))
+#    return ([hookName, hookFunction, hookSelf, request], {})
+#
+#@HookAfter('zm.ZM.executeRequest')
+#def anotherTest(*args, **kwargs):
+#    print("Would handle hook %s returning %s" % (args[0], args[1]))
+#    return (args, kwargs)

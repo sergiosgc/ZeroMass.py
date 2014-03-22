@@ -8,7 +8,7 @@ ZeroMass is a Python 3 minimalistic web application layer on top of wsgi. It pro
 
 Rationale
 ---------
-WSGI, as defined in [PEP 333](http://legacy.python.org/dev/peps/pep-0333/), while being a non-leaky interface for writing web applications in Python, is a bit too low level for direct usage by application developers. The API is too close to the network layer, failing to provide an object oriented interface for exposing both the request data and the response in true OO fashion. While the WSGI approach is correct, perfectly explained in PEP 333 and, I believe, correct, the API requires a few steps up in the abstraction axis to be really usable.
+WSGI, as defined in [PEP 333](http://legacy.python.org/dev/peps/pep-0333/), while being a non-leaky interface for writing web applications in Python, is a bit too low level for direct usage by application developers. The API is too close to the network layer, failing to provide an object oriented interface for exposing both the request data and the response in true OO fashion. While the WSGI approach is perfectly explained in PEP 333 and, I believe, correct, the API requires a few steps up in the abstraction axis to be really usable.
 
 WSGI server documentation, namely for uwsgi and gunicorn, refer to Django, the top web development framework for Python, when faced with the natural need for a more abstract/powerful interface. The problem is that Django goes too far, locking development into an opinionated framework.
 

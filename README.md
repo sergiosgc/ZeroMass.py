@@ -34,7 +34,7 @@ First, you need to get a wsgi server up and running, and pointing to the app.py 
  - You must pass an environment variable called `zm_home` with the path to the application home directory
  - You must pass an environment variable called `zm_appname` with the name of the module to import for starting your application
 
-ZeroMass will, during application setup -- before accepting any request -- load all modules in `$zm_home/$app_name`. You should take advantage of this and create a python script that contains one function or one static method that can answer the request, and place the file into $zm\_home/$app\_name. For a hello world, it should contain something in the line of:
+ZeroMass will, during application setup &emdash; before accepting any request -- load all modules in `$zm_home/$app_name`. You should take advantage of this and create a python script that contains one function or one static method that can answer the request, and place the file into $zm\_home/$app\_name. For a hello world, it should contain something in the line of:
 ```python
 from zm import HookAfter
 

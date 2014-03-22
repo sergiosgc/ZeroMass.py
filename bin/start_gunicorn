@@ -1,0 +1,17 @@
+#!/bin/bash
+function handle_int() {
+    export STOP=1
+}
+trap handle_int INT
+
+APPNAME=damia
+APPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../.. && pwd )"
+export ZM_HOME="${APPDIR}/source"
+source $APPDIR/venv/bin/activate
+cd "$APPDIR/source"
+STOP=0
+while [ $STOP -eq 0 ]
+do
+    "$APPDIR/venv/bin/gunicorn" --max-requests=1 --chdir="$APPDIR/source" -e zm_home="${ZM_HOME}" -e zm_appname=$APPNAME --debug -p "$APPDIR/venv/run/gunicorn.pid" app:application
+done
+deactivate

@@ -95,6 +95,10 @@ class ZM(object):
             return [b"HTTP 500: Internal server error; Python exception caught by top level handler\n\n", bytes(str(e), 'utf-8'), b"\n\n", bytes(traceback.format_exc(), 'utf-8')]
 
     @Hook
+    def runtimeInit(self):
+        self.runtimeInitialized = True
+
+    @Hook
     def executeRequest(self, request):
         result = HTTPResponse()
         return result

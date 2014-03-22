@@ -68,10 +68,10 @@ class ZM(object):
 
     def answerRequest(self, env, start_response):
         try:
-            if env['QUERY_STRING'] == '':
-                url = env['wsgi.url_scheme'] + "//" + env['HTTP_HOST'] + env['RAW_URI']
-            else:
-                url = env['wsgi.url_scheme'] + "//" + env['HTTP_HOST'] + env['RAW_URI'] + "?" + env['QUERY_STRING']
+            if not self.runtimeInitialized:
+                self.runtimeInit()
+
+            url = env['wsgi.url_scheme'] + "//" + env['HTTP_HOST'] + env['RAW_URI']
             request = HTTPRequest(url, env['REQUEST_METHOD'], protocolVersion=env['SERVER_PROTOCOL'].split('/', 2)[1])
             for key,value in dict((key[len('HTTP_'):],value) for key,value in env.items() if key.startswith('HTTP_')).items():
                 request.addHeader(key, value)
